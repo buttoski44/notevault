@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addDocument } from "../../firebase/firebase.uitls";
 import { Timestamp } from "firebase/firestore";
-
+import { motion } from "framer-motion";
 export const INITIAL_VALUE = {
     title: "",
     tagline: "",
@@ -51,8 +51,14 @@ export const Newnote = () => {
     }
 
     return (
-        <section className="relative min-h-screen md:px-32 bg-[#F5F5F5] text-black">
-            <div className={`min-h-screen py-5 px-8 ${COLORS[ref.current.color]}`}>
+        <section className="relative min-h-screen md:px-32 bg-[#F5F5F5] text-black"
+
+        >
+            <motion.div className={`min-h-screen py-5 px-8 ${COLORS[ref.current.color]}`}
+                initial={{ x: 300, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -300, opacity: 0 }}
+            >
                 <h1
                     before="Title..."
                     contentEditable="true"
@@ -122,7 +128,7 @@ export const Newnote = () => {
                 </div>
                 <div className="h-[1px] w-full bg-gray-400 rounded-full opacity-[0.3] my-2"></div>
                 <p before="Write Here..." contentEditable="true" spellCheck="false" className="outline-0 py-4 empty:opacity-[0.2] empty:before:content-[attr(before)]" onInput={handleChange} id="body" ></p>
-            </div>
+            </motion.div>
         </section>
     )
 };

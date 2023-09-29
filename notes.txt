@@ -26,8 +26,8 @@ document {
 }
 
 
-
-
+when fullnote page is reloded , its losse all its content
+make class for databse object 
 
 bullet point 
 check

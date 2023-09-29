@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { NotesContext } from "../../context/notes.context";
 import { Note } from "../note/note.component";
-
+import { motion } from "framer-motion";
 const NoteContainer = ({ filter }) => {
     const [currentPage, setCurrentPage] = useState(1)
     const pageNumber = [];
@@ -24,16 +24,21 @@ const NoteContainer = ({ filter }) => {
     const array = pinned.concat(unPinned).slice(indexOfFirstPost, indexOfLastPost)
 
     return (
-        <section className='h-full w-full md:w-auto bg-gradient-to-r from-[#F5F5F5] px-4 md:px-12 py-1 md:py-4'>
+        <motion.section className='h-full w-full md:w-auto bg-gradient-to-r from-[#F5F5F5] px-4 md:px-12 py-1 md:py-4'
+            initial={{ x: 300, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -300, opacity: 0 }}
+        >
             <div className="join py-2 md:py-4">
                 {
                     pageNumber.map((page) => <button className="join-item btn btn-sm" onClick={() => setCurrentPage(page)}>{page}</button>)
                 }
             </div>
-            <div className="grid md:grid-cols-3 grid-cols-2  gap-1 md:gap-5 justify-around">
+            <div className="grid md:grid-cols-3 grid-cols-2  gap-1 md:gap-5 justify-around"
+            >
                 {array.map((note) => <Note key={note.id} note={note} />)}
             </div>
-        </section>
+        </motion.section>
     )
 };
 

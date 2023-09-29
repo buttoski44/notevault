@@ -4,7 +4,7 @@ import { NotesContext } from "../../context/notes.context";
 import { deletDocument, updateDocument } from "../../firebase/firebase.uitls";
 import { INITIAL_VALUE, COLORS, colors } from "../newnote/newnote";
 import { Timestamp } from "firebase/firestore";
-
+import { motion } from "framer-motion";
 
 export const Fullnote = () => {
     const notes = useContext(NotesContext);
@@ -57,8 +57,14 @@ export const Fullnote = () => {
     }
 
     return (
-        <section className="relative min-h-screen md:px-32 bg-[#F5F5F5] text-black">
-            <div className={`min-h-screen py-5 px-8 ${COLORS[ref.current.color]}`}>
+        <section className="relative min-h-screen md:px-32 bg-[#F5F5F5] text-black"
+
+        >
+            <motion.div className={`min-h-screen py-5 px-8 ${COLORS[ref.current.color]}`}
+                initial={{ x: 300, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -300, opacity: 0 }}
+            >
                 <h1
                     before="Title"
                     contentEditable="true"
@@ -133,7 +139,7 @@ export const Fullnote = () => {
                     className="outline-0 py-4 empty:opacity-[0.2] empty:before:content-[attr(before)] "
                     onInput={handleChange}
                     id="body">{note.body}</p>
-            </div>
+            </motion.div>
         </section>
     )
 };
