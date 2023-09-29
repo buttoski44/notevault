@@ -1,0 +1,42 @@
+** home page
+
+
+* notes container 
+search 
+notes pin
+date wise ranking
+pagination
+
+
+* Sticky note
+make width of paragraph and heading elemnets same as up to their content length rather than taking full width even if content is 2 words long
+stiky note design
+custom note color
+formatting of notes should be same as its users has put in first plaee(with same enters spaces)
+
+
+document {
+    id: ,
+    title: ,
+    tagline: ,
+    body: ,
+    timestamp: ,
+    color: ,(default)white
+    pinned: ,(default)false
+}
+
+
+
+
+
+bullet point 
+check
+box
+category filter
+image add
+
+
+
+problems to be solved
+minimize read and write to firestore
+use memoization to forfit recalculations

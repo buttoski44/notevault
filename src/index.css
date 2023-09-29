@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.pattern {
+  background-color: #f5f5f5;
+  background-image: radial-gradient(
+    ellipse farthest-corner at 24px 24px,
+    #b9b4c7,
+    #5c5470 50%,
+    #f5f5f5 50%
+  );
+  background-size: 14px 14px;
+}
