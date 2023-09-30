@@ -3,10 +3,10 @@ import {
   addDoc,
   collection,
   getDocs,
+  getDoc,
   getFirestore,
   setDoc,
   doc,
-  onSnapshot,
   deleteDoc,
 } from "firebase/firestore";
 
@@ -35,6 +35,13 @@ export const addDocument = async (note, collectionName) => {
   } catch (error) {
     console.error(error);
   }
+};
+
+export const getDocument = (noteId) => {
+  const docRef = doc(db, "Notes", noteId);
+  getDoc(docRef).then((doc) => {
+    console.log(doc.data());
+  });
 };
 
 export const getFromFirestore = async (collectionName) => {

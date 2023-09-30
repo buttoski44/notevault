@@ -24,21 +24,18 @@ const NoteContainer = ({ filter }) => {
     const array = pinned.concat(unPinned).slice(indexOfFirstPost, indexOfLastPost)
 
     return (
-        <motion.section className='h-full w-full md:w-auto bg-gradient-to-r from-[#F5F5F5] px-4 md:px-12 py-1 md:py-4'
-            initial={{ x: 300, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: -300, opacity: 0 }}
+        <section className='h-full w-full md:w-auto bg-gradient-to-r from-[#F5F5F5] px-4 md:px-12 py-1 md:py-4'
         >
-            <div className="join py-2 md:py-4">
+            <div className="py-2 join md:py-4 ">
                 {
-                    pageNumber.map((page) => <button className="join-item btn btn-sm" onClick={() => setCurrentPage(page)}>{page}</button>)
+                    pageNumber.map((page) => <button className="join-item btn-sm bg-[#352F44] text-[#F5F5F5]" onClick={() => setCurrentPage(page)}>{page}</button>)
                 }
             </div>
-            <div className="grid md:grid-cols-3 grid-cols-2  gap-1 md:gap-5 justify-around"
+            <div className="grid justify-start grid-cols-2 gap-1 md:grid-cols-3 md:gap-5"
             >
                 {array.map((note) => <Note key={note.id} note={note} />)}
             </div>
-        </motion.section>
+        </section>
     )
 };
 

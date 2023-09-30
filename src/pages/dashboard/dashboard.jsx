@@ -2,6 +2,7 @@ import { Navbar } from "../../components/navbar/navbar.component";
 import { lazy, Suspense, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion"
+import { AddLogo } from "../../assets/add.jsx";
 import { Loader } from "../../components/loader/loader.component";
 const NoteContainer = lazy(() => import("../../components/notescontainer/notescontainer.component"));
 
@@ -19,13 +20,14 @@ export const Dashboard = () => {
          exit={{ x: -300, opacity: 0 }}
       >
          <Navbar handleInpurFilter={handleInpurFilter} />
+         {/* <Loader /> */}
          <Suspense fallback={<Loader />}>
             <NoteContainer filter={filter} />
          </Suspense>
-         <motion.button className="btn-sm md:btn-md btn-circle bg-[rgb(229,231,240)] hover:bg-[rgb(213,214,219)] absolute top-[5.4rem] md:top-auto md:bottom-12 right-6 md:right-12 flex justify-center items-center -z-1"
+         <motion.button className="btn-sm md:btn-md btn-circle bg-[#a19cb3] hover:bg-[#a5a0b4] absolute top-[5.4rem] md:top-auto md:bottom-12 right-6 md:right-12 flex justify-center items-center -z-1 text-[#3f3850] hover:text-black"
             onClick={() => navigate("/new")}
          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 12H12M12 12H18M12 12V18M12 12V6" /></svg>
+            <AddLogo />
          </motion.button>
       </section>
    )

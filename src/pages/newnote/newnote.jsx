@@ -16,8 +16,8 @@ export const INITIAL_VALUE = {
 export const COLORS = {
     default: "bg-stone-100",
     oragne: "bg-[#FFA500]",
-    yellow: "bg-[#FFFF00]",
-    indigo: "bg-[#4B0082]",
+    yellow: "bg-[#ffde22]",
+    indigo: "bg-[#352F44]",
     violet: "bg-[#EE82EE]",
 }
 
@@ -51,34 +51,24 @@ export const Newnote = () => {
     }
 
     return (
-        <section className="relative min-h-screen md:px-32 bg-[#F5F5F5] text-black"
+        <motion.section className="relative min-h-screen md:px-32 bg-[#F5F5F5] text-black"
 
         >
-            <motion.div className={`min-h-screen py-5 px-8 ${COLORS[ref.current.color]}`}
-                initial={{ x: 300, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -300, opacity: 0 }}
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 2 }}
             >
-                <h1
-                    before="Title..."
-                    contentEditable="true"
-                    spellCheck="false"
-                    className="outline-0 text-2xl md:text-6xl py-4 empty:opacity-[0.2] empty:before:content-[attr(before)]"
-                    id="title"
-                    onInput={handleChange}
-                ></h1>
-                <h3
-                    before="Tagline..."
-                    contentEditable="true"
-                    spellCheck="false"
-                    className="outline-0 text-xl empty:opacity-[0.2] empty:before:content-[attr(before)]"
-                    id="tagline"
-                    onInput={handleChange}
-                ></h3>
-                <p className="pt-4 text-sm">24 june</p>
-                <div className="absolute top-8 md:top-10 right-4 md:right-12 flex flex-col gap-4 px-2">
+                <button
+                    className="fixed top-8 md:top-10 left-4 md:left-12 gap-4 px-2 btn-circle bg-[rgb(229,231,240)] hover:bg-[rgb(213,214,219)] flex justify-center items-center"
+                    onClick={() => navigate("/")}
+                >
+                    <svg width="800px" height="800px" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><polyline points="244 400 100 256 244 112" style={{ fill: "none", stroke: "#000000", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "28px" }} /><line x1="120" y1="256" x2="412" y2="256" style={{ fill: "none", stroke: "#000000", strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "28px" }} /></svg>
+                </button>
+                <div className="absolute flex flex-col gap-4 px-2 top-8 md:top-10 right-4 md:right-12">
                     <button
-                        className="btn-circle bg-[rgb(229,231,240)] hover:bg-[rgb(213,214,219)]  flex justify-center items-center"
+                        className="btn-circle bg-[#FAF0E6] hover:bg-[#f7e7d7]  flex justify-center items-center"
                         onClick={handleDelet}
                     >
                         <svg className="w-6 h-6" fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -126,9 +116,32 @@ export const Newnote = () => {
                         </ul>
                     </div>
                 </div>
-                <div className="h-[1px] w-full bg-gray-400 rounded-full opacity-[0.3] my-2"></div>
-                <p before="Write Here..." contentEditable="true" spellCheck="false" className="outline-0 py-4 empty:opacity-[0.2] empty:before:content-[attr(before)]" onInput={handleChange} id="body" ></p>
             </motion.div>
-        </section>
+            <motion.div className={`min-h-screen py-5 px-8 ${COLORS[ref.current.color]}`}
+                initial={{ y: 300, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -300, opacity: 0 }}
+            >
+                <h1
+                    before="Title"
+                    contentEditable="true"
+                    spellCheck="false"
+                    className="outline-0 text-2xl md:text-6xl py-4 empty:opacity-[0.2] empty:before:content-[attr(before)] font-bold"
+                    id="title"
+                    onInput={handleChange}
+                ></h1>
+                <h3
+                    before="Tagline"
+                    contentEditable="true"
+                    spellCheck="false"
+                    className="outline-0 text-xl empty:opacity-[0.2] empty:before:content-[attr(before)] font-semibold"
+                    id="tagline"
+                    onInput={handleChange}
+                ></h3>
+                <p className="pt-4 text-sm font-semibold">24 june</p>
+                <div className="h-[2px] w-full bg-black rounded-full opacity-[0.7] my-2"></div>
+                <p before="Write Here" contentEditable="true" spellCheck="false" className="outline-0 py-4 empty:opacity-[0.2] empty:before:content-[attr(before)] font-medium" onInput={handleChange} id="body" ></p>
+            </motion.div>
+        </motion.section>
     )
 };
