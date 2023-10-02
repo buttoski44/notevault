@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { NotesContext } from "../../context/notes.context";
 import { Note } from "../note/note.component";
-import { motion } from "framer-motion";
+
 const NoteContainer = ({ filter }) => {
     const [currentPage, setCurrentPage] = useState(1)
     const pageNumber = [];
@@ -28,7 +28,7 @@ const NoteContainer = ({ filter }) => {
         >
             <div className="py-2 join md:py-4 ">
                 {
-                    pageNumber.map((page) => <button className="join-item btn-sm bg-[#352F44] text-[#F5F5F5]" onClick={() => setCurrentPage(page)}>{page}</button>)
+                    pageNumber.map((page) => <button key={page} className="join-item btn-sm bg-[#352F44] text-[#F5F5F5]" onClick={() => setCurrentPage(page)}>{page}</button>)
                 }
             </div>
             <div className="grid justify-start grid-cols-2 gap-1 md:grid-cols-3 md:gap-5"

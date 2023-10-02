@@ -4,12 +4,16 @@ import App from './App.jsx'
 import './index.css'
 import { BrowserRouter } from 'react-router-dom'
 import { NotesContextProvider } from './context/notes.context.jsx'
+// const NotesContextProvider = lazy(() => import('./context/notes.context.jsx'))
+import { lazy, Suspense } from 'react'
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <NotesContextProvider>
+    {/* <Suspense fallback={<span className="loading loading-spinner loading-lg"></span>}> */}
+    <NotesContextProvider>
+      <BrowserRouter>
         <App />
-      </NotesContextProvider>
-    </BrowserRouter>
-  </React.StrictMode>,
+      </BrowserRouter>
+    </NotesContextProvider>
+    {/* </Suspense> */}
+  </React.StrictMode>
 )

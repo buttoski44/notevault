@@ -33,9 +33,9 @@ export const Note = ({ note }) => {
             whileTap={{ scale: 0.95 }}
         >
             <div className="flex flex-col justify-between w-full h-full gap-2" onClick={handleClick}>
-                <h2 className="text-lg font-semibold text-black ">{title ? title : <div className="opacity-[0]">""</div>}</h2>
-                <p className="w-full h-full overflow-hidden ">{tagline}
-                </p><p className="text-xs opacity-[0.6]">{"" + timeArr[2] + " " + timeArr[1] + ", " + timeArr[3]}</p>
+                <h2 className="text-lg font-bold text-black ">{title ? title : <div className="opacity-[0]">""</div>}</h2>
+                <p className="w-full h-full overflow-hidden font-semibold ">{tagline}
+                </p><p className="text-xs font-bold">{"" + timeArr[2] + " " + timeArr[1] + ", " + timeArr[3]}</p>
             </div>
             <div className="flex flex-col gap-1 pl-1 ">
                 <button

@@ -8,50 +8,37 @@ import { motion } from "framer-motion";
 import { BackLogo } from "../../assets/back";
 import { PaintLogo } from "../../assets/paint";
 import { DeletLogo } from "../../assets/delet";
-
+import { Loader } from "../../components/loader/loader.component";
 
 const Fullnote = () => {
-    const { noteId } = useParams();
     const navigate = useNavigate();
+    const { noteId } = useParams();
     const notes = useContext(NotesContext);
-
-    const [note, setNote] = useState(INITIAL_VALUE);
-    const timeArr = note.timestamp.toDate().toDateString().split(' ');
+    const [note, setNote] = useState(() => notes.find(n => n.id === noteId));
+    const timeArr = note ? note.timestamp.toDate().toDateString().split(' ') : null;
 
     const ref = useRef(INITIAL_VALUE);
-    ref.current = note;
+    if (note) ref.current = note;
     const timeout = useRef();
-    // {
-    //     id: null,
-    //     firstRender: false
-    // }
-    // console.log(note)
-    // console.log(notes)
-    // console.log(ref.current)
-    // console.log(timeout.current)
     useEffect(() => {
-        notes.forEach(data => {
-            if (data.id === noteId) {
-                setNote(data)
-                // console.log("foreach")
-            }
-        });
-
+        if (notes) {
+            notes.forEach(data => {
+                if (data.id === noteId) {
+                    setNote(data)
+                }
+            });
+        }
         return () => {
-            // if (timeout.current.firstRender)
-            clearTimeout(timeout.current);
-            // console.log("return")
-            if (ref.current.title.length !== 0 || ref.current.tagline.length !== 0 || ref.current.body.length !== 0) {
-                // console.log("updtate")
-                updateDocument(ref.current, noteId)
+            if (note) {
+                clearTimeout(timeout.current);
+                if (ref.current.title.length !== 0 || ref.current.tagline.length !== 0 || ref.current.body.length !== 0) {
+                    updateDocument(ref.current, noteId)
+                } else if (ref.current.title.length === 0 && ref.current.tagline.length === 0 && ref.current.body.length === 0) {
+                    deletDocument(noteId, "Notes");
+                }
             }
-            else if (ref.current.title.length === 0 && ref.current.tagline.length === 0 && ref.current.body.length === 0) {
-                // console.log("delet")
-                deletDocument(noteId, "Notes");
-                // }
-                // timeout.current.firstRender = true;
-            }
-        }}, []);
+        }
+    }, [notes]);
 
     const handleDelet = () => {
         ref.current = INITIAL_VALUE;
@@ -74,6 +61,10 @@ const Fullnote = () => {
         timeout.current = setTimeout(() => {
             updateDocument(ref.current, noteId);
         }, 2000)
+    }
+
+    if (notes.length === 0) {
+        return <Loader type="fullnote" />
     }
 
     return (
@@ -105,7 +96,7 @@ const Fullnote = () => {
                             <PaintLogo />
                         </label>
                         <ul tabIndex={0} className="dropdown-content z-[1] shadow flex flex-col gap-2 p-2 bg-stone-100 rounded-s-2xl rounded-2xl w-12 mt-2">
-                            {colors.map((color) => <li className={`w-full rounded-sm ${COLORS[color]}`} onClick={() => handleColor(color)}><div className="opacity-[0]">l</div></li>)}
+                            {colors.map((color) => <li key={color} className={`w-full rounded-sm ${COLORS[color]}`} onClick={() => handleColor(color)}><div className="opacity-[0]">l</div></li>)}
                         </ul>
                     </div>
                 </div>
@@ -118,27 +109,31 @@ const Fullnote = () => {
                 <h1
                     before="Title"
                     contentEditable="true"
+                    suppressContentEditableWarning={true}
                     spellCheck="false"
-                    className="outline-0 text-2xl md:text-6xl py-4 empty:opacity-[0.2] empty:before:content-[attr(before)] font-bold" id="title"
-                    onInput={handleChange}>{note.title}</h1>
+                    className="outline-0 text-2xl md:text-6xl py-4 empty:opacity-[0.2] empty:before:content-[attr(before)] font-bold"
+                    id="title"
+                    onInput={handleChange}>{ref.current.title}</h1>
                 <h3
                     before="Tagline"
                     contentEditable="true"
+                    suppressContentEditableWarning={true}
                     spellCheck="false"
                     className="outline-0 text-xl  empty:opacity-[0.2] empty:before:content-[attr(before)] font-semibold"
                     id="tagline"
-                    onInput={handleChange}>{note.tagline}</h3>
+                    onInput={handleChange}>{ref.current.tagline}</h3>
                 <p
                     className="pt-4 text-sm font-semibold"
-                >{timeArr[0] + ". " + timeArr[2] + " " + timeArr[1] + ", " + timeArr[3] + "."}</p>
+                >{timeArr && (timeArr[0] + ". " + timeArr[2] + " " + timeArr[1] + ", " + timeArr[3] + ".")}</p>
                 <div className="h-[2px] w-full bg-black rounded-full opacity-[0.7] my-2"></div>
                 <p
                     before="Write Here..."
                     contentEditable="true"
+                    suppressContentEditableWarning={true}
                     spellCheck="false"
                     className="outline-0 py-4 empty:opacity-[0.2] empty:before:content-[attr(before)] font-medium"
                     onInput={handleChange}
-                    id="body">{note.body}</p>
+                    id="body">{ref.current.body}</p>
             </motion.div>
         </section>
     )

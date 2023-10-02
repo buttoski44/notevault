@@ -35,7 +35,7 @@ export const Loader = ({ type }) => {
             <div className="pt-2 w-[5%] h-8 rounded-md  bg-[#B9B4C7] animate-pulse mb-4 ">
             </div>
             <div className="grid justify-start w-1/2 grid-cols-2 gap-1 md:grid-cols-3 md:gap-5 ">
-                {loader.map((box) => <div
+                {loader.map((box) => <div key={box}
                     className="w-48 md:w-52 h-48 md:h-52 shadow-xl p-4 rounded-xl flex justify-between border-solid border-[0.1rem] border-[#d5d2dd] animate-pulse"
                 >
                     <div className="flex flex-col w-full h-full gap-4 bg-stone-100 ">

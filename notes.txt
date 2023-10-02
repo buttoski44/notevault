@@ -40,3 +40,128 @@ image add
 problems to be solved
 minimize read and write to firestore
 use memoization to forfit recalculations
+
+
+    
+# React "StrictMode" running cleanup functions twice and unusual behavior from context
+
+I have been working on AutoSave functionality for my project. when component unmount i call two methods depending upon content in elements, if title, tagline and body is empty deletDocument() is called else updateDocument() is called.
+
+in context i am using OnSnapshot() listener which listen to any document changes happens in firestore and updates my context state.
+
+in my main.jsx file, i am mounting <NotesContextProvider/> before any other component mount so i can first pull all the data in firestore i need before rendering DOM with other component.
+
+**main.jsx**
+
+    import React from 'react'
+    import ReactDOM from 'react-dom/client'
+    import App from './App.jsx'
+    import './index.css'
+    import { BrowserRouter } from 'react-router-dom'
+    import { NotesContextProvider } from './context/notes.context.jsx'
+    ReactDOM.createRoot(document.getElementById('root')).render(
+      <React.StrictMode>
+        <NotesContextProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </NotesContextProvider>
+      </React.StrictMode>
+    )
+
+**FullNote.jsx**
+
+    const INITIAL_VALUE = {
+     title: "",
+     tagline: "",
+     body: "",
+     timestamp: Timestamp.now(),
+     pinned: false,
+     pintime: null,
+     color: "default",
+    };
+
+    const Fullnote = () => {
+        const notes = useContext(NotesContext);
+
+        const [note, setNote] = useState(INITIAL_VALUE);
+    
+        const navigate = useNavigate();
+        const { noteId } = useParams();
+    
+        const ref = useRef(INITIAL_VALUE);
+        ref.current = note;
+        const timeout = useRef();
+    
+        useEffect(() => {
+            notes.forEach(data => {
+                if (data.id === noteId) setNote(data)
+            });
+    
+            return () => {
+                clearTimeout(timeout.current);
+    
+                if (ref.current.title.length !== 0 || ref.current.tagline.length !== 0 || ref.current.body.length !== 0) {
+                    updateDocument(ref.current, noteId)
+    
+                }
+                else if (ref.current.title.length === 0 && ref.current.tagline.length === 0 && ref.current.body.length === 0) {
+                    deletDocument(noteId, "Notes");
+    
+                }
+            }
+        }, []);
+    
+        const handleChange = (e) => {
+            ref.current.timestamp = Timestamp.now()
+            ref.current = { ...ref.current, [e.target.id]: e.currentTarget.textContent };
+            debounce();
+        }
+     
+        const debounce = () => {
+            clearTimeout(timeout.current);
+            timeout.current = setTimeout(() => {
+                updateDocument(ref.current, noteId);
+            }, 2000)
+        }
+    
+        return (
+              <>
+                    ......
+              </>
+        )
+    }
+
+
+**Without using StrictMode:**
+
+when i am not using strictMode , my UseEffect runs only one time. so every thing initizes at first time, the setNode() function runs 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+correct if i am wrong , but as i understand in FullNote component usecontext will pull state in NoteContext which definitely has data that i need as it has already mounted. after that local state "note" will be initiated. i am also using useRef to not cause unnecessary renders. after that component will mount and useEffect will run. inside useEffect forEach loop will run setNote for matching noteId from "notes" array. due to state change component will unmount and re-render and component will be rendered with "note" state.
+
+Problems;
+1. In strict mode , useEffect runs twice. I think it unmount component when component is initialized and also remount again. as my Initial state values are empty string, deletDocument function is ruuing , deleting document from database. but when i remove strict mode this does not happen. 
