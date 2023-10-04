@@ -40,6 +40,7 @@ image add
 problems to be solved
 minimize read and write to firestore
 use memoization to forfit recalculations
+page refresh and tab/page delet auto save
 
 
     

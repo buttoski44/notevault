@@ -16,12 +16,11 @@ const Fullnote = () => {
     const notes = useContext(NotesContext);
     const [note, setNote] = useState(() => notes.find(n => n.id === noteId));
     const timeArr = note ? note.timestamp.toDate().toDateString().split(' ') : null;
-
     const ref = useRef(INITIAL_VALUE);
     if (note) ref.current = note;
     const timeout = useRef();
     useEffect(() => {
-        if (notes) {
+        if (!note) {
             notes.forEach(data => {
                 if (data.id === noteId) {
                     setNote(data)
@@ -54,6 +53,7 @@ const Fullnote = () => {
     const handleColor = (colour) => {
         ref.current = { ...ref.current, color: colour }
         setNote({ ...note, color: colour })
+        debounce();
     }
 
     const debounce = () => {
@@ -68,7 +68,7 @@ const Fullnote = () => {
     }
 
     return (
-        <section className="relative min-h-screen md:px-32 bg-[#F5F5F5] text-black"
+        <section className="relative min-h-screen sm:px-16 mdl:px-32 bg-[#F5F5F5] text-black"
 
         >   <motion.div
             initial={{ opacity: 0 }}
@@ -79,20 +79,20 @@ const Fullnote = () => {
         >
 
                 <button
-                    className="absolute top-8 md:top-10 left-4 md:left-12 gap-4 px-2 btn-circle bg-[rgb(229,231,240)] hover:bg-[rgb(213,214,219)] flex justify-center items-center"
+                    className="absolute top-0 sm:top-8 left-0 sm:left-2 mdl:left-4 gap-4 px-2 btn-circle sm:bg-[rgb(229,231,240)] hover:bg-[rgb(213,214,219)] flex justify-center items-center"
                     onClick={() => navigate("/")}
                 >
                     <BackLogo />
                 </button>
-                <div className="absolute flex flex-col gap-4 px-2 top-8 md:top-10 right-4 md:right-12">
+                <div className="absolute flex flex-col gap-4 top-0 sm:top-8 right-0 sm:right-2 mdl:right-8">
                     <button
-                        className="btn-circle bg-[#FAF0E6] hover:bg-[#f7e7d7]  flex justify-center items-center"
+                        className="btn-circle sm:bg-[#FAF0E6] hover:bg-[#f7e7d7]  flex justify-center items-center"
                         onClick={handleDelet}
                     >
                         <DeletLogo />
                     </button>
                     <div className="dropdown dropdown-bottom dropdown-end">
-                        <label tabIndex={0} className="btn-circle bg-[rgb(229,231,240)] hover:bg-[rgb(213,214,219)] flex justify-center items-center p-2">
+                        <label tabIndex={0} className="btn-circle sm:bg-[rgb(229,231,240)] hover:bg-[rgb(213,214,219)] flex justify-center items-center p-2">
                             <PaintLogo />
                         </label>
                         <ul tabIndex={0} className="dropdown-content z-[1] shadow flex flex-col gap-2 p-2 bg-stone-100 rounded-s-2xl rounded-2xl w-12 mt-2">
@@ -101,29 +101,29 @@ const Fullnote = () => {
                     </div>
                 </div>
             </motion.div>
-            <motion.div className={`min-h-screen py-5 px-8 ${COLORS[ref.current.color]}`}
+            <motion.div className={`min-h-screen py-8 sm:py-5 px-8 ${COLORS[ref.current.color]}`}
                 initial={{ x: 300, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 exit={{ x: -300, opacity: 0 }}
             >
-                <h1
+                <h2
                     before="Title"
                     contentEditable="true"
                     suppressContentEditableWarning={true}
-                    spellCheck="false"
-                    className="outline-0 text-2xl md:text-6xl py-4 empty:opacity-[0.2] empty:before:content-[attr(before)] font-bold"
                     id="title"
-                    onInput={handleChange}>{ref.current.title}</h1>
+                    spellCheck="false"
+                    className="outline-0 text-2xl xs:text-4xl md:text-6xl py-4 font-bold empty:opacity-[0.2] empty:before:content-[attr(before)]"
+                    onInput={handleChange}>{ref.current.title}</h2>
                 <h3
                     before="Tagline"
                     contentEditable="true"
                     suppressContentEditableWarning={true}
                     spellCheck="false"
-                    className="outline-0 text-xl  empty:opacity-[0.2] empty:before:content-[attr(before)] font-semibold"
                     id="tagline"
+                    className="outline-0 text-md xs:text-xl placeholder:opacity-[0.2] font-semibold"
                     onInput={handleChange}>{ref.current.tagline}</h3>
                 <p
-                    className="pt-4 text-sm font-semibold"
+                    className="pt-4 text-xs md:text-sm font-semibold"
                 >{timeArr && (timeArr[0] + ". " + timeArr[2] + " " + timeArr[1] + ", " + timeArr[3] + ".")}</p>
                 <div className="h-[2px] w-full bg-black rounded-full opacity-[0.7] my-2"></div>
                 <p
@@ -131,9 +131,10 @@ const Fullnote = () => {
                     contentEditable="true"
                     suppressContentEditableWarning={true}
                     spellCheck="false"
-                    className="outline-0 py-4 empty:opacity-[0.2] empty:before:content-[attr(before)] font-medium"
+                    className="w-full h-full outline-0 py-4 text-sm font-medium empty:opacity-[0.2] empty:before:content-[attr(before)]"
                     onInput={handleChange}
-                    id="body">{ref.current.body}</p>
+                    id="body"
+                >{ref.current.body}</p>
             </motion.div>
         </section>
     )

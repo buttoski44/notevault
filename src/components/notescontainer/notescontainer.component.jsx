@@ -24,14 +24,14 @@ const NoteContainer = ({ filter }) => {
     const array = pinned.concat(unPinned).slice(indexOfFirstPost, indexOfLastPost)
 
     return (
-        <section className='h-full w-full md:w-auto bg-gradient-to-r from-[#F5F5F5] px-4 md:px-12 py-1 md:py-4'
+        <section className='h-full w-full sm:w-auto bg-gradient-to-r from-[#F5F5F5] px-4 md:px-12 py-1 md:py-4'
         >
             <div className="py-2 join md:py-4 ">
                 {
                     pageNumber.map((page) => <button key={page} className="join-item btn-sm bg-[#352F44] text-[#F5F5F5]" onClick={() => setCurrentPage(page)}>{page}</button>)
                 }
             </div>
-            <div className="grid justify-start grid-cols-2 gap-1 md:grid-cols-3 md:gap-5"
+            <div className="grid  grid-cols-2  sm:grid-cols-3 gap-1 sm:gap-5 justify-start"
             >
                 {array.map((note) => <Note key={note.id} note={note} />)}
             </div>

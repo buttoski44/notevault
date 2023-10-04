@@ -20,11 +20,10 @@ export const Dashboard = () => {
          exit={{ x: -300, opacity: 0 }}
       >
          <Navbar handleInpurFilter={handleInpurFilter} />
-         {/* <Loader /> */}
          <Suspense fallback={<Loader />}>
             <NoteContainer filter={filter} />
          </Suspense>
-         <motion.button className="btn-sm md:btn-md btn-circle bg-[#a19cb3] hover:bg-[#a5a0b4] absolute top-[5.4rem] md:top-auto md:bottom-12 right-6 md:right-12 flex justify-center items-center -z-1 text-[#3f3850] hover:text-black"
+         <motion.button className="btn-sm md:btn-md btn-circle bg-[#a19cb3] hover:bg-[#a5a0b4] absolute top-[5.4rem] md:top-auto md:bottom-12 right-6 md:right-12 flex justify-center items-center z-10 text-[#3f3850] hover:text-black"
             onClick={() => navigate("/new")}
          >
             <AddLogo />
