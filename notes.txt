@@ -1,20 +1,3 @@
-** home page
-
-
-* notes container 
-search 
-notes pin
-date wise ranking
-pagination
-
-
-* Sticky note
-make width of paragraph and heading elemnets same as up to their content length rather than taking full width even if content is 2 words long
-stiky note design
-custom note color
-formatting of notes should be same as its users has put in first plaee(with same enters spaces)
-
-
 document {
     id: ,
     title: ,
@@ -25,9 +8,24 @@ document {
     pinned: ,(default)false
 }
 
+pagination
+make width of paragraph and heading elemnets same as up to their content length rather than taking full width even if content is 2 words long
+formatting of notes should be same as its users has put in first plaee(with same enters spaces)
 
-when fullnote page is reloded , its losse all its content
-make class for databse object 
+
+
+#### popUp for tab close, refresh to ask if save or not
+note auto saved confirmation icon
+Category wise sorting
+minimize read and write to firestore
+use memoization to forfit recalculations
+
+
+
+
+
+
+
 
 bullet point 
 check
@@ -35,15 +33,29 @@ box
 category filter
 image add
 
-
-
-problems to be solved
-minimize read and write to firestore
-use memoization to forfit recalculations
-page refresh and tab/page delet auto save
-
-
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # React "StrictMode" running cleanup functions twice and unusual behavior from context
 
 I have been working on AutoSave functionality for my project. when component unmount i call two methods depending upon content in elements, if title, tagline and body is empty deletDocument() is called else updateDocument() is called.

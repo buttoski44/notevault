@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { NotesContext } from "../../context/notes.context";
 import { Note } from "../note/note.component";
+import { AnimatePresence, LayoutGroup } from "framer-motion";
 
 const NoteContainer = ({ filter }) => {
     const [currentPage, setCurrentPage] = useState(1)
@@ -22,7 +23,6 @@ const NoteContainer = ({ filter }) => {
     const unPinned = notes.filter((note) => note.pinned === false);
     unPinned.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis())
     const array = pinned.concat(unPinned).slice(indexOfFirstPost, indexOfLastPost)
-
     return (
         <section className='h-full w-full sm:w-auto bg-gradient-to-r from-[#F5F5F5] px-4 md:px-12 py-1 md:py-4'
         >
@@ -31,9 +31,13 @@ const NoteContainer = ({ filter }) => {
                     pageNumber.map((page) => <button key={page} className="join-item btn-sm bg-[#352F44] text-[#F5F5F5]" onClick={() => setCurrentPage(page)}>{page}</button>)
                 }
             </div>
-            <div className="grid  grid-cols-2  sm:grid-cols-3 gap-1 sm:gap-5 justify-start"
+            <div className="grid justify-start grid-cols-2 gap-1 sm:grid-cols-3 sm:gap-5"
             >
-                {array.map((note) => <Note key={note.id} note={note} />)}
+                <AnimatePresence >
+                    <LayoutGroup>
+                        {array.map((note) => <Note key={note.id} note={note} />)}
+                    </LayoutGroup>
+                </AnimatePresence>
             </div>
         </section>
     )

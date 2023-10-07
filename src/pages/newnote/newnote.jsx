@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { DeletLogo } from "../../assets/delet";
 import { PaintLogo } from "../../assets/paint";
 import { BackLogo } from "../../assets/back";
-
+import { TextArea } from "../../components/textarea/textarea";
 export const INITIAL_VALUE = {
     title: "",
     tagline: "",
@@ -55,14 +55,13 @@ export const Newnote = () => {
     }
 
     return (
-        <section className="relative min-h-screen sm:px-16 mdl:px-32 bg-[#F5F5F5] text-black"
-
+        <motion.section className="relative min-h-screen sm:px-16 mdl:px-32 bg-[#F5F5F5] text-black"
+            initial={{ y: 300, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -300, opacity: 0 }}
+            transition={{ duration: 0.3 }}
         >
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 2 }}
+            <div
             >
                 <button
                     className="absolute top-0 sm:top-8 left-0 sm:left-2 mdl:left-4 gap-4 px-2 btn-circle sm:bg-[rgb(229,231,240)] hover:bg-[rgb(213,214,219)] flex justify-center items-center"
@@ -70,7 +69,7 @@ export const Newnote = () => {
                 >
                     <BackLogo />
                 </button>
-                <div className="absolute flex flex-col gap-4 top-0 sm:top-8 right-0 sm:right-2 mdl:right-8">
+                <div className="absolute top-0 right-0 flex flex-col gap-4 sm:top-8 sm:right-2 mdl:right-8">
                     <button
                         className="btn-circle sm:bg-[#FAF0E6] hover:bg-[#f7e7d7]  flex justify-center items-center"
                         onClick={handleDelet}
@@ -86,32 +85,31 @@ export const Newnote = () => {
                         </ul>
                     </div>
                 </div>
-            </motion.div>
-            <motion.div className={`min-h-screen py-8 sm:py-5 px-8 ${COLORS[ref.current.color]}`}
-                initial={{ y: 300, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -300, opacity: 0 }}
+            </div>
+            <div className={`min-h-screen py-8 sm:py-5 px-8 ${COLORS[ref.current.color]}`}
             >
-                <h1
-                    before="Title"
-                    contentEditable="true"
-                    spellCheck="false"
-                    className="outline-0 text-2xl xs:text-4xl md:text-6xl py-4 empty:opacity-[0.2] empty:before:content-[attr(before)] font-bold"
+                <TextArea
+                    placeholder="Title"
                     id="title"
-                    onInput={handleChange}
-                ></h1>
-                <h3
-                    before="Tagline"
-                    contentEditable="true"
-                    spellCheck="false"
-                    className="outline-0 text-md xs:text-xl empty:opacity-[0.2] empty:before:content-[attr(before)] font-semibold"
+                    style="text-2xl xs:text-4xl md:text-6xl py-4 font-bold"
+                    handleChange={handleChange}
+                />
+                <TextArea
+                    placeholder="Tagline"
                     id="tagline"
-                    onInput={handleChange}
-                ></h3>
-                <p className="pt-4 text-xs md:text-sm font-semibold">24 june</p>
+                    style="text-md xs:text-xl font-semibold"
+                    handleChange={handleChange}
+                />
+                <p className="pt-4 text-xs font-semibold md:text-sm">24 june</p>
                 <div className="h-[2px] w-full bg-black rounded-full opacity-[0.7] my-2"></div>
-                <p before="Write Here" contentEditable="true" spellCheck="false" className="outline-0 py-4 text-sm empty:opacity-[0.2] empty:before:content-[attr(before)] font-medium" onInput={handleChange} id="body" ></p>
-            </motion.div>
-        </section>
+                <TextArea
+                    placeholder="Write Here..."
+                    id="body"
+                    style="w-full h-full py-4 text-sm font-medium"
+                    handleChange={handleChange}
+                    content={ref.current.body}
+                />
+            </div>
+        </motion.section>
     )
 };

@@ -1,32 +1,37 @@
 import { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { NotesContext } from "../../context/notes.context";
-import { deletDocument, updateDocument } from "../../firebase/firebase.uitls";
-import { INITIAL_VALUE, COLORS, colors } from "../newnote/newnote";
 import { Timestamp } from "firebase/firestore";
 import { motion } from "framer-motion";
+import { deletDocument, updateDocument } from "../../firebase/firebase.uitls";
+import { NotesContext } from "../../context/notes.context";
+import { INITIAL_VALUE, COLORS, colors } from "../newnote/newnote";
 import { BackLogo } from "../../assets/back";
 import { PaintLogo } from "../../assets/paint";
 import { DeletLogo } from "../../assets/delet";
 import { Loader } from "../../components/loader/loader.component";
+import { TextArea } from "../../components/textarea/textarea";
 
 const Fullnote = () => {
     const navigate = useNavigate();
     const { noteId } = useParams();
+
     const notes = useContext(NotesContext);
+
     const [note, setNote] = useState(() => notes.find(n => n.id === noteId));
     const timeArr = note ? note.timestamp.toDate().toDateString().split(' ') : null;
-    const ref = useRef(INITIAL_VALUE);
-    if (note) ref.current = note;
+
+    const ref = useRef(note);
     const timeout = useRef();
     useEffect(() => {
         if (!note) {
             notes.forEach(data => {
                 if (data.id === noteId) {
+                    ref.current = data;
                     setNote(data)
                 }
             });
         }
+
         return () => {
             if (note) {
                 clearTimeout(timeout.current);
@@ -63,28 +68,27 @@ const Fullnote = () => {
         }, 2000)
     }
 
-    if (notes.length === 0) {
+    if (!note) {
         return <Loader type="fullnote" />
     }
 
     return (
-        <section className="relative min-h-screen sm:px-16 mdl:px-32 bg-[#F5F5F5] text-black"
-
-        >   <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 2 }}
-
+        <motion.section className="relative min-h-screen sm:px-16 mdl:px-32 bg-[#F5F5F5] text-black"
+            initial={{ y: -300, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 300, opacity: 0 }}
+            transition={{ duration: 0.3 }}
         >
+            <div
+            >
 
                 <button
-                    className="absolute top-0 sm:top-8 left-0 sm:left-2 mdl:left-4 gap-4 px-2 btn-circle sm:bg-[rgb(229,231,240)] hover:bg-[rgb(213,214,219)] flex justify-center items-center"
+                    className="absolute top-1 sm:top-8 left-1 sm:left-2 mdl:left-4 gap-4 px-2 btn-circle sm:bg-[rgb(229,231,240)] hover:bg-[rgb(213,214,219)] flex justify-center items-center"
                     onClick={() => navigate("/")}
                 >
                     <BackLogo />
                 </button>
-                <div className="absolute flex flex-col gap-4 top-0 sm:top-8 right-0 sm:right-2 mdl:right-8">
+                <div className="absolute flex flex-col gap-4 top-1 right-1 sm:top-8 sm:right-2 mdl:right-8">
                     <button
                         className="btn-circle sm:bg-[#FAF0E6] hover:bg-[#f7e7d7]  flex justify-center items-center"
                         onClick={handleDelet}
@@ -100,43 +104,34 @@ const Fullnote = () => {
                         </ul>
                     </div>
                 </div>
-            </motion.div>
-            <motion.div className={`min-h-screen py-8 sm:py-5 px-8 ${COLORS[ref.current.color]}`}
-                initial={{ x: 300, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -300, opacity: 0 }}
+            </div>
+            <div className={`min-h-screen py-8 sm:py-5 px-8 ${COLORS[ref.current.color]}`}
             >
-                <h2
-                    before="Title"
-                    contentEditable="true"
-                    suppressContentEditableWarning={true}
+                <TextArea
+                    placeholder="Title"
                     id="title"
-                    spellCheck="false"
-                    className="outline-0 text-2xl xs:text-4xl md:text-6xl py-4 font-bold empty:opacity-[0.2] empty:before:content-[attr(before)]"
-                    onInput={handleChange}>{ref.current.title}</h2>
-                <h3
-                    before="Tagline"
-                    contentEditable="true"
-                    suppressContentEditableWarning={true}
-                    spellCheck="false"
+                    style="text-2xl xs:text-4xl md:text-6xl py-4 font-bold "
+                    handleChange={handleChange}
+                    content={ref.current.title} />
+                <TextArea
+                    placeholder="Tagline"
                     id="tagline"
-                    className="outline-0 text-md xs:text-xl placeholder:opacity-[0.2] font-semibold"
-                    onInput={handleChange}>{ref.current.tagline}</h3>
+                    style="text-md xs:text-xl font-semibold"
+                    handleChange={handleChange}
+                    content={ref.current.tagline} />
                 <p
-                    className="pt-4 text-xs md:text-sm font-semibold"
+                    className="pt-4 text-xs font-semibold md:text-sm"
                 >{timeArr && (timeArr[0] + ". " + timeArr[2] + " " + timeArr[1] + ", " + timeArr[3] + ".")}</p>
                 <div className="h-[2px] w-full bg-black rounded-full opacity-[0.7] my-2"></div>
-                <p
-                    before="Write Here..."
-                    contentEditable="true"
-                    suppressContentEditableWarning={true}
-                    spellCheck="false"
-                    className="w-full h-full outline-0 py-4 text-sm font-medium empty:opacity-[0.2] empty:before:content-[attr(before)]"
-                    onInput={handleChange}
+                <TextArea
+                    placeholder="Write Here..."
                     id="body"
-                >{ref.current.body}</p>
-            </motion.div>
-        </section>
+                    style="w-full h-full py-4 text-sm font-medium "
+                    handleChange={handleChange}
+                    content={ref.current.body}
+                />
+            </div>
+        </motion.section>
     )
 };
 
