@@ -2,7 +2,7 @@ import { Logo } from "../../assets/logo"
 
 export const Navbar = ({ handleInpurFilter }) => {
     return (
-        <div className="navbar py-4 px-4 md:pl-6 md:pr-12 bg-[#352F44]">
+        <div className="navbar py-4 px-4 md:pl-6 md:pr-12 bg-[#352F44] z-50">
             <div className="navbar-start">
                 <Logo />
             </div>

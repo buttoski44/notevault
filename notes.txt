@@ -8,14 +8,14 @@ document {
     pinned: ,(default)false
 }
 
-pagination
+
 make width of paragraph and heading elemnets same as up to their content length rather than taking full width even if content is 2 words long
 formatting of notes should be same as its users has put in first plaee(with same enters spaces)
 
 
-
-#### popUp for tab close, refresh to ask if save or not
-note auto saved confirmation icon
+cannot delet note due to onBlur event
+#### popUp for tab close, refresh to ask if save or note
+pegination, page button activate on click
 Category wise sorting
 minimize read and write to firestore
 use memoization to forfit recalculations

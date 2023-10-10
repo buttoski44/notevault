@@ -5,6 +5,9 @@ export const NotesContext = createContext();
 
 export const NotesContextProvider = ({ children }) => {
     const [notes, setNotes] = useState([]);
+    const [saved, setSaved] = useState(false);
+
+    if (saved) setTimeout(() => setSaved(false), 3000)
     useEffect(() => {
         try {
             const unsub = onSnapshot(collection(db, "Notes"), (snapShot) => {
@@ -18,6 +21,6 @@ export const NotesContextProvider = ({ children }) => {
             console.error(error)
         }
     }, [])
-    return <NotesContext.Provider value={notes}>{children}</NotesContext.Provider>
+    return <NotesContext.Provider value={{ notes, saved, setSaved }}>{children}</NotesContext.Provider>
 
 }

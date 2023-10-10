@@ -8,20 +8,29 @@ import { MoreLogo } from "../../assets/more";
 import { PinLogo } from "../../assets/pin.jsx";
 import { DeletLogo } from "../../assets/delet";
 import { useState } from "react";
-export const Note = ({ note }) => {
+export const Note = ({ note, setPreview }) => {
     const [more, setMore] = useState(false);
     const { title, tagline, timestamp, id, pinned, color } = note;
     const timeArr = timestamp.toDate().toDateString().split(' ');
     const navigate = useNavigate();
-    const handleClick = () => {
-        navigate(`${id}`)
+    const handleClick = (e) => {
+        if (e.type === 'click') {
+            navigate(`${id}`)
+        } else if (e.type === 'contextmenu') {
+            setPreview(note)
+        }
     }
     const handleDelet = () => {
         deletDocument(id, "Notes");
+        setPreview(null);
     }
 
     const handleMore = () => {
         setMore(!more)
+    }
+
+    const handleBlur = () => {
+        setMore(false)
     }
 
     const handlePin = () => {
@@ -37,11 +46,12 @@ export const Note = ({ note }) => {
 
         <motion.div className={`relative w-full sm:w-48 md:w-52 h-40 sm:h-48 md:h-52 shadow-xl p-4 rounded-xl cursor-pointer ${COLORS[color]} overflow-clip`}
             layout
-            initial={{ opacity: 0.5, scale: 0.7 }}
+            initial={{ opacity: 0.5, scale: 0.2 }}
             animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0.5, scale: 0.7 }}
+            exit={{ opacity: 0.2, scale: 0.2 }}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
+            onBlur={handleBlur}
         >
             <AnimatePresence>
                 {more &&
@@ -66,7 +76,10 @@ export const Note = ({ note }) => {
                 }
             </AnimatePresence>
             <div className="flex justify-between w-full h-full">
-                <div className="flex flex-col justify-between w-full h-full gap-2" onClick={handleClick}>
+                <div className="flex flex-col justify-between w-full h-full gap-2"
+                    onClick={handleClick}
+                    onContextMenu={handleClick}
+                >
                     <h2 className="text-ellipsis overflow-hidden w-full h-[25%] font-bold text-black text-md sm:text-lg">{title ? title : <div className="opacity-[0]">""</div>}</h2>
                     <p className="w-full h-full overflow-hidden text-xs font-semibold text-ellipsis sm:text-sm ">{tagline}
                     </p><p className="font-bold text-xs/3 sm:text-xs">{"" + timeArr[2] + " " + timeArr[1] + ", " + timeArr[3]}</p>
@@ -76,7 +89,9 @@ export const Note = ({ note }) => {
                         className="relative btn-circle hover:bg-[#B9B4C7] btn-xs flex justify-center items-center z-20"
                         onClick={handleMore}
                     >
-                        <MoreLogo />
+                        <AnimatePresence>
+                            {more ? <CrossLogo /> : <MoreLogo />}
+                        </AnimatePresence>
                     </button>
                     {
                         pinned &&

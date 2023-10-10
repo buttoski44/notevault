@@ -15,7 +15,7 @@ const Fullnote = () => {
     const navigate = useNavigate();
     const { noteId } = useParams();
 
-    const notes = useContext(NotesContext);
+    const { notes, setSaved } = useContext(NotesContext);
 
     const [note, setNote] = useState(() => notes.find(n => n.id === noteId));
     const timeArr = note ? note.timestamp.toDate().toDateString().split(' ') : null;
@@ -40,6 +40,7 @@ const Fullnote = () => {
                 } else if (ref.current.title.length === 0 && ref.current.tagline.length === 0 && ref.current.body.length === 0) {
                     deletDocument(noteId, "Notes");
                 }
+                setSaved(true)
             }
         }
     }, [notes]);
