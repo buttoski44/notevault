@@ -1,28 +1,34 @@
 import { useNavigate } from "react-router-dom";
 import { deletDocument, updateDocument } from "../../firebase/firebase.uitls";
 import { Timestamp } from "firebase/firestore";
-import { COLORS } from "../../pages/newnote/newnote";
+// import { COLORS } from "../../pages/newnote/newnote";
 import { AnimatePresence, motion } from "framer-motion";
 import { CrossLogo } from "../../assets/cross.jsx";
 import { MoreLogo } from "../../assets/more";
 import { PinLogo } from "../../assets/pin.jsx";
 import { DeletLogo } from "../../assets/delet";
-import { useState } from "react";
-export const Note = ({ note, setPreview }) => {
+import { useState } from "react"
+export const Note = ({ note, preview, setPreview }) => {
     const [more, setMore] = useState(false);
-    const { title, tagline, timestamp, id, pinned, color } = note;
+    const { title, tagline, timestamp, id, pinned } = note;
     const timeArr = timestamp.toDate().toDateString().split(' ');
     const navigate = useNavigate();
     const handleClick = (e) => {
         if (e.type === 'click') {
             navigate(`${id}`)
         } else if (e.type === 'contextmenu') {
-            setPreview(note)
+            preview.obj = note;
+            setPreview({
+                ...preview, visible: true
+            })
         }
     }
     const handleDelet = () => {
         deletDocument(id, "Notes");
-        setPreview(null);
+        setPreview({
+            visible: false,
+            obj: {}
+        });
     }
 
     const handleMore = () => {
@@ -44,7 +50,7 @@ export const Note = ({ note, setPreview }) => {
 
     return (
 
-        <motion.div className={`relative w-full sm:w-48 md:w-52 h-40 sm:h-48 md:h-52 shadow-xl p-4 rounded-xl cursor-pointer ${COLORS[color]} overflow-clip`}
+        <motion.div className={`relative w-full sm:w-48 md:w-52 h-40 sm:h-48 md:h-52 shadow-xl p-4 rounded-xl cursor-pointer overflow-clip border-solid border-2 border-[#B9B4C7] bg-[#d5d2dd]`}
             layout
             initial={{ opacity: 0.5, scale: 0.2 }}
             animate={{ opacity: 1, scale: 1 }}

@@ -7,7 +7,7 @@ export const Navbar = ({ handleInpurFilter }) => {
                 <Logo />
             </div>
             <div className="navbar-end">
-                <input type="text" placeholder="Search" className="input input-md w-full max-w-xs text-lg font-semibold bg-[#B9B4C7] placeholder:text-[#F5F5F5] placeholder:opacity-[0.8]" onChange={handleInpurFilter} />
+                <input type="text" placeholder="Search" className="input input-md w-full max-w-xs text-lg font-semibold bg-[#F5F5F5] placeholder:opacity-[0.8]" onChange={handleInpurFilter} />
             </div>
         </div >
     )
