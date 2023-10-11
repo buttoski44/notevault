@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { deletDocument, updateDocument } from "../../firebase/firebase.uitls";
 import { Timestamp } from "firebase/firestore";
-// import { COLORS } from "../../pages/newnote/newnote";
 import { AnimatePresence, motion } from "framer-motion";
 import { CrossLogo } from "../../assets/cross.jsx";
 import { MoreLogo } from "../../assets/more";
@@ -61,19 +60,19 @@ export const Note = ({ note, preview, setPreview }) => {
         >
             <AnimatePresence>
                 {more &&
-                    <motion.div className="absolute z-10 top-0 left-0 w-full h-full bg-[#B9B4C7]/50 backdrop-blur-sm p-4 flex items-center justify-center gap-2"
+                    <motion.div className="absolute z-10 top-0 left-0 w-full h-full bg-[#f5f5f5]/50 backdrop-blur-sm p-4 flex items-center justify-center gap-2"
                         key="cover"
                         initial={{ opacity: 0.5, y: -100 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0.5, y: 200 }}
                         transition={{ duration: 0.2 }}
                     >
-                        <div className="flex items-center justify-center w-10 h-10 hover:bg-[#352F44] rounded-md border-solid border-[1px] border-[#352F44] transition-colors duration-75"
+                        <div className="flex items-center justify-center w-10 h-10 hover:bg-[#B9B4C7] rounded-md border-solid border-2 border-[#B9B4C7] transition-colors duration-75"
                             onClick={handleDelet}
                         >
                             <DeletLogo />
                         </div>
-                        <div className="flex items-center justify-center h-10 w-10 hover:bg-[#352F44] rounded-md border-solid border-[1px] border-[#352F44] transition-colors duration-75"
+                        <div className="flex items-center justify-center h-10 w-10 hover:bg-[#B9B4C7] rounded-md border-solid border-2 border-[#B9B4C7] transition-colors duration-75"
                             onClick={handlePin}
                         >
                             <PinLogo />
@@ -92,7 +91,7 @@ export const Note = ({ note, preview, setPreview }) => {
                 </div>
                 <div className="flex flex-col gap-1 pl-1 ">
                     <button
-                        className="relative btn-circle hover:bg-[#B9B4C7] btn-xs flex justify-center items-center z-20"
+                        className={`relative btn-circle ${more ? "hover:bg-[#B9B4C7]" : "hover:bg-[#f5f5f5]"} btn-xs flex justify-center items-center z-20`}
                         onClick={handleMore}
                     >
                         <AnimatePresence>

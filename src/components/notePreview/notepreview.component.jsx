@@ -1,8 +1,6 @@
 import { motion } from "framer-motion";
-import { INITIAL_VALUE } from "../../pages/newnote/newnote"
 import { CrossLogo } from "../../assets/cross";
 import { Loader } from "../../components/loader/loader.component";
-import { TextArea } from "../textarea/textarea";
 export const NotePreview = ({ note, setPreview }) => {
     const timeArr = note.obj.timestamp.toDate().toDateString().split(' ');
 
@@ -11,8 +9,11 @@ export const NotePreview = ({ note, setPreview }) => {
     }
 
     return (
-        <section className="relative w-full z-10 h-full bg-[#F5F5F5] text-black"
-
+        <motion.section className="relative w-full z-10 h-full bg-[#F5F5F5] text-black"
+            initial={{ y: -300, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 300, opacity: 0 }}
+            transition={{ duration: 0.3 }}
         >
             <button
                 className="absolute top-2 right-2 btn-circle btn-sm sm:bg-[#FAF0E6] hover:bg-[#f7e7d7]  flex justify-center items-center"
@@ -45,6 +46,6 @@ export const NotePreview = ({ note, setPreview }) => {
                     className="w-full py-4 text-sm font-medium outline-0 empty:opacity-[0.2] empty:before:content-[attr(before)]"
                 >{note.obj.body}</p>
             </div>
-        </section >
+        </motion.section>
     )
 };
