@@ -7,7 +7,7 @@ export const BulbLogo = () => {
             xmlns="http://www.w3.org/2000/svg"
             width="40"
             height="40"
-            fill="#000"
+            fill="#f5f5f5"
             version="1.1"
             viewBox="0 0 190.915 190.915"
             xmlSpace="preserve"

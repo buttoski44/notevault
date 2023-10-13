@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { CrossLogo } from "../../assets/cross";
 import { Loader } from "../../components/loader/loader.component";
+import { FALSE_STATE } from "../notescontainer/notescontainer.component";
 export const NotePreview = ({ note, setPreview }) => {
     const timeArr = note.obj.timestamp.toDate().toDateString().split(' ');
 
@@ -16,15 +17,12 @@ export const NotePreview = ({ note, setPreview }) => {
             transition={{ duration: 0.3 }}
         >
             <button
-                className="absolute top-2 right-2 btn-circle btn-sm sm:bg-[#FAF0E6] hover:bg-[#f7e7d7]  flex justify-center items-center"
-                onClick={() => setPreview({
-                    visible: false,
-                    obj: {}
-                })}
+                className="absolute top-8 right-8 btn-circle btn-sm sm:bg-[#FAF0E6] hover:bg-[#f7e7d7]  flex justify-center items-center"
+                onClick={() => setPreview(FALSE_STATE)}
             >
                 <CrossLogo />
             </button>
-            <div className={`h-full py-5 px-8 bg-[#B9B4C7]`}
+            <div className="h-full py-5 px-8 bg-[#B9B4C7]"
             >
                 <p
                     before="Empty"

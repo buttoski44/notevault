@@ -6,9 +6,14 @@ import { CrossLogo } from "../../assets/cross.jsx";
 import { MoreLogo } from "../../assets/more";
 import { PinLogo } from "../../assets/pin.jsx";
 import { DeletLogo } from "../../assets/delet";
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { FALSE_STATE } from "../notescontainer/notescontainer.component";
+import { AddLogo } from "../../assets/add";
+import { FolderContext } from "../../context/folder.context";
 export const Note = ({ note, preview, setPreview }) => {
+    const folder = useContext(FolderContext);
     const [more, setMore] = useState(false);
+    const [menu, setMenu] = useState(false);
     const { title, tagline, timestamp, id, pinned } = note;
     const timeArr = timestamp.toDate().toDateString().split(' ');
     const navigate = useNavigate();
@@ -24,10 +29,7 @@ export const Note = ({ note, preview, setPreview }) => {
     }
     const handleDelet = () => {
         deletDocument(id, "Notes");
-        setPreview({
-            visible: false,
-            obj: {}
-        });
+        setPreview(FALSE_STATE);
     }
 
     const handleMore = () => {
@@ -38,30 +40,39 @@ export const Note = ({ note, preview, setPreview }) => {
         setMore(false)
     }
 
+    const handlesetFolder = (name) => {
+        updateDocument({ ...note, folder: name }, id, "Notes")
+    }
+
     const handlePin = () => {
         if (pinned) {
-            updateDocument({ ...note, pinned: false, pintime: null }, id)
+            updateDocument({ ...note, pinned: false, pintime: null }, id, "Notes")
         } else {
-            updateDocument({ ...note, pinned: true, pintime: Timestamp.now() }, id)
+            updateDocument({ ...note, pinned: true, pintime: Timestamp.now() }, id, "Notes")
         }
         setMore(false)
     }
 
+    const handleSelectMenu = (name) => {
+        handlesetFolder(name)
+        setMenu(!menu)
+    }
+
     return (
 
-        <motion.div className={`relative w-full sm:w-48 md:w-52 h-40 sm:h-48 md:h-52 shadow-xl p-4 rounded-xl cursor-pointer overflow-clip border-solid border-2 border-[#B9B4C7] bg-[#d5d2dd]`}
+        <motion.div className="relative w-full sm:w-48 md:w-52 h-40 sm:h-48 md:h-52 shadow-xl p-4 rounded-xl cursor-pointer overflow-clip border-solid border-2 border-[#B9B4C7] bg-[#d5d2dd] z-10"
             layout
             initial={{ opacity: 0.5, scale: 0.2 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0.2, scale: 0.2 }}
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.98 }}
-            onBlur={handleBlur}
+        // onBlur={handleBlur}
         >
             <AnimatePresence>
                 {more &&
-                    <motion.div className="absolute z-10 top-0 left-0 w-full h-full bg-[#f5f5f5]/50 backdrop-blur-sm p-4 flex items-center justify-center gap-2"
-                        key="cover"
+                    <motion.div className="absolute top-0 left-0 w-full h-full bg-[#f5f5f5]/50 backdrop-blur-sm p-4 flex items-center justify-center gap-2 z-30"
+                        key="cover1"
                         initial={{ opacity: 0.5, y: -100 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0.5, y: 200 }}
@@ -72,11 +83,27 @@ export const Note = ({ note, preview, setPreview }) => {
                         >
                             <DeletLogo />
                         </div>
-                        <div className="flex items-center justify-center h-10 w-10 hover:bg-[#B9B4C7] rounded-md border-solid border-2 border-[#B9B4C7] transition-colors duration-75"
+                        <div className="flex items-center justify-center h-10 w-10 p-1 hover:bg-[#B9B4C7] rounded-md border-solid border-2 border-[#B9B4C7] transition-colors duration-75 "
                             onClick={handlePin}
                         >
                             <PinLogo />
                         </div>
+                    </motion.div>
+                }
+                {menu &&
+                    <motion.div className="absolute z-30 top-0 left-0 w-full h-full backdrop-blur-sm"
+                        key="cover2"
+                        initial={{ opacity: 0.5, y: -100 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0.5, y: 200 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                        <ul className=" w-[75%] h-full overflow-scroll no-scrollbar shadow bg-[#f5f5f5]/50 backdrop-blur-sm p-2">
+                            <li key="no" className="px-1 py-2 text-sm font-bold hover:bg-[#B9B4C7]/20 rounded-md" onClick={() => handleSelectMenu("")}>default</li>
+                            {folder.folderNames.map((name) => <li key={name} className="px-1 py-2 text-sm font-semibold hover:bg-[#B9B4C7]/50 rounded-md"
+                                onClick={() => handleSelectMenu(name)}
+                            >{name}</li>)}
+                        </ul>
                     </motion.div>
                 }
             </AnimatePresence>
@@ -91,17 +118,23 @@ export const Note = ({ note, preview, setPreview }) => {
                 </div>
                 <div className="flex flex-col gap-1 pl-1 ">
                     <button
-                        className={`relative btn-circle ${more ? "hover:bg-[#B9B4C7]" : "hover:bg-[#f5f5f5]"} btn-xs flex justify-center items-center z-20`}
+                        className={`relative btn-circle ${more ? "hover:bg-[#B9B4C7]" : "hover:bg-[#f5f5f5]"} btn-xs flex justify-center items-center z-50`}
                         onClick={handleMore}
                     >
                         <AnimatePresence>
                             {more ? <CrossLogo /> : <MoreLogo />}
                         </AnimatePresence>
                     </button>
+                    <button
+                        className={`relative btn-circle ${more ? "hover:bg-[#B9B4C7]" : "hover:bg-[#f5f5f5]"} btn-xs flex justify-center items-center z-50`}
+                        onClick={() => setMenu(!menu)}
+                    >
+                        <AddLogo />
+                    </button>
                     {
                         pinned &&
                         <div
-                            className="btn-circle btn-xs flex justify-center items-center bg-[#B9B4C7]"
+                            className="btn-circle btn-xs flex justify-center items-center bg-[#B9B4C7] p-[0.15rem]"
                             onClick={handlePin}
                         >
                             <PinLogo />

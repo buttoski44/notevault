@@ -54,9 +54,9 @@ export const getFromFirestore = async (collectionName) => {
   }
 };
 
-export const updateDocument = async (note, id) => {
+export const updateDocument = async (data, id, collectionName) => {
   try {
-    await setDoc(doc(db, "Notes", id), note);
+    await setDoc(doc(db, collectionName, id), data);
   } catch (error) {
     console.error(error);
   }

@@ -11,6 +11,7 @@ export const INITIAL_VALUE = {
     title: "",
     tagline: "",
     body: "",
+    folder: "",
     timestamp: Timestamp.now(),
     pinned: false,
     pintime: null,

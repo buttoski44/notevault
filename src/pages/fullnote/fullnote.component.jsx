@@ -6,7 +6,6 @@ import { deletDocument, updateDocument } from "../../firebase/firebase.uitls";
 import { NotesContext } from "../../context/notes.context";
 import { INITIAL_VALUE } from "../newnote/newnote";
 import { BackLogo } from "../../assets/back";
-import { PaintLogo } from "../../assets/paint";
 import { DeletLogo } from "../../assets/delet";
 import { Loader } from "../../components/loader/loader.component";
 import { TextArea } from "../../components/textarea/textarea";
@@ -17,8 +16,11 @@ const Fullnote = () => {
 
     const { notes, setSaved } = useContext(NotesContext);
 
+    console.log(notes);
     const [note, setNote] = useState(() => notes.find(n => n.id === noteId));
-    const timeArr = note ? note.timestamp.toDate().toDateString().split(' ') : null;
+    console.log(note);
+    const timeArr = note?.timestamp.toDate().toDateString().split(' ');
+    console.log("Sknd");
 
     const ref = useRef(note);
     const timeout = useRef();
@@ -31,16 +33,16 @@ const Fullnote = () => {
                 }
             });
         }
-
         return () => {
             if (note) {
                 clearTimeout(timeout.current);
                 if (ref.current.title.length !== 0 || ref.current.tagline.length !== 0 || ref.current.body.length !== 0) {
-                    updateDocument(ref.current, noteId)
+                    updateDocument(ref.current, noteId, "Notes")
+                    setSaved(true)
                 } else if (ref.current.title.length === 0 && ref.current.tagline.length === 0 && ref.current.body.length === 0) {
                     deletDocument(noteId, "Notes");
+                    setSaved(true)
                 }
-                setSaved(true)
             }
         }
     }, [notes]);
@@ -59,7 +61,7 @@ const Fullnote = () => {
     const debounce = () => {
         clearTimeout(timeout.current);
         timeout.current = setTimeout(() => {
-            updateDocument(ref.current, noteId);
+            updateDocument(ref.current, noteId, "Notes");
         }, 2000)
     }
 
@@ -92,7 +94,7 @@ const Fullnote = () => {
                     </button>
                 </div>
             </div>
-            <div className={`min-h-screen py-8 sm:py-5 px-8 bg-[#B9B4C7]`}
+            <div className="min-h-screen py-8 sm:py-5 px-8 bg-[#B9B4C7]"
             >
                 <TextArea
                     placeholder="Title"
