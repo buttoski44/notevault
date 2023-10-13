@@ -71,7 +71,7 @@ export const FolderContainer = ({ setFolderFilter, folderFilter }) => {
                             folderFilter ?
                                 <Folder key={folderFilter} name={folderFilter} cross="false" /> :
 
-                                folder.folderNames.map((name) => <Folder key={name} name={name} handleDelet={handleUpdate} setFolderFilter={setFolderFilter} />
+                                folder.folderNames?.map((name) => <Folder key={name} name={name} handleDelet={handleUpdate} setFolderFilter={setFolderFilter} />
                                 )
                         }
                     </div>
