@@ -36,13 +36,13 @@ const NoteContainer = ({ filter }) => {
     const array = pinned.concat(unPinned).slice(indexOfFirstPost, indexOfLastPost)
     return (
         <section className="relative flex gap-8 h-full w-full px-4 md:px-10">
-            <div className="flex flex-col w-full h-full  mdl:w-[75%] xl:w-[52%]">
+            <div className="flex flex-col w-full h-full mdl:w-[75%] xl:w-[52%]">
 
                 <FolderContainer setFolderFilter={setFolderFilter} folderFilter={folderFilter} />
                 <div className='h-full w-full'
                 >
 
-                    <div className="py-2 join md:py-3 ">
+                    <div className="py-2 join md:py-3">
                         {
                             pageNumber.map((page) => <button key={page} className="join-item btn-sm bg-[#352F44] text-[#F5F5F5]" onClick={() => setCurrentPage(page)}>{page}</button>)
                         }
