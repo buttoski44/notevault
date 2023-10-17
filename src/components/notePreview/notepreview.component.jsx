@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CrossLogo } from "../../assets/cross";
+import { AddLogo } from "../../assets/add";
 import { Loader } from "../../components/loader/loader.component";
 import { FALSE_STATE } from "../notescontainer/notescontainer.component";
 export const NotePreview = ({ note, setPreview }) => {
@@ -17,10 +17,10 @@ export const NotePreview = ({ note, setPreview }) => {
             transition={{ duration: 0.3 }}
         >
             <button
-                className="absolute top-8 right-8 btn-circle btn-sm sm:bg-[#FAF0E6] hover:bg-[#f7e7d7]  flex justify-center items-center"
+                className="absolute top-8 right-8 btn-circle btn-sm sm:bg-[#FAF0E6] hover:bg-[#f7e7d7]  flex justify-center items-center rotate-45"
                 onClick={() => setPreview(FALSE_STATE)}
             >
-                <CrossLogo />
+                <AddLogo />
             </button>
             <div className="h-full py-5 px-8 bg-[#B9B4C7]"
             >

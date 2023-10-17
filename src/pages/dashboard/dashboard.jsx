@@ -26,7 +26,7 @@ export const Dashboard = () => {
          <Suspense fallback={<Loader />}>
             <NoteContainer filter={filter} />
          </Suspense>
-         <button className="btn-md btn-circle bg-[#a19cb3] hover:bg-[#a5a0b4] absolute bottom-6 md:bottom-12 right-3 md:right-16 flex justify-center items-center z-10 text-[#3f3850] hover:text-black"
+         <button className="btn-md btn-circle bg-[#a19cb3] hover:bg-[#a5a0b4] absolute bottom-6 md:bottom-12 right-3 md:right-16 flex justify-center items-center z-10 text-[#3f3850] hover:text-black rotate-45"
             onClick={() => navigate("/new")}
          >
             <AddLogo />

@@ -2,14 +2,14 @@ import { useNavigate } from "react-router-dom";
 import { deletDocument, updateDocument } from "../../firebase/firebase.uitls";
 import { Timestamp } from "firebase/firestore";
 import { AnimatePresence, motion } from "framer-motion";
-import { CrossLogo } from "../../assets/cross.jsx";
 import { MoreLogo } from "../../assets/more";
 import { PinLogo } from "../../assets/pin.jsx";
 import { DeletLogo } from "../../assets/delet";
 import { useContext, useState } from "react"
 import { FALSE_STATE } from "../notescontainer/notescontainer.component";
-import { AddLogo } from "../../assets/add";
+import { AddToFolder } from "../../assets/addToFolder"
 import { FolderContext } from "../../context/folder.context";
+import { AddLogo } from "../../assets/add";
 export const Note = ({ note, preview, setPreview }) => {
     const folder = useContext(FolderContext);
     const [more, setMore] = useState(false);
@@ -122,14 +122,17 @@ export const Note = ({ note, preview, setPreview }) => {
                         onClick={handleMore}
                     >
                         <AnimatePresence>
-                            {more ? <CrossLogo /> : <MoreLogo />}
+                            {more ? <AddLogo /> : <MoreLogo />}
                         </AnimatePresence>
                     </button>
                     <button
-                        className={`relative btn-circle ${more ? "hover:bg-[#B9B4C7]" : "hover:bg-[#f5f5f5]"} btn-xs flex justify-center items-center z-50`}
+                        className={`relative btn-circle ${more ? "hover:bg-[#B9B4C7]" : "hover:bg-[#f5f5f5]"} btn-xs flex justify-center items-center z-50 `}
                         onClick={() => setMenu(!menu)}
                     >
-                        <AddLogo />
+                        <AnimatePresence>
+                            {menu ? <AddLogo /> : <AddToFolder />}
+                        </AnimatePresence>
+
                     </button>
                     {
                         pinned &&

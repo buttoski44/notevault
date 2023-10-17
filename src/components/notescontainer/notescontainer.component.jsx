@@ -3,7 +3,6 @@ import { NotesContext } from "../../context/notes.context";
 import { Note } from "../note/note.component";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import { NotePreview } from "../../components/notePreview/notepreview.component"
-import { BulbLogo } from "../../assets/bulb";
 import { FolderContainer } from "../foldercontainer/foldercontainer.component";
 export const FALSE_STATE = {
     visible: false,

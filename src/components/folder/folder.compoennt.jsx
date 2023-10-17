@@ -1,4 +1,4 @@
-import { CrossLogo } from "../../assets/cross";
+import { AddLogo } from "../../assets/add";
 
 export const Folder = ({ name, handleDelet, setFolderFilter }) => {
 
@@ -12,7 +12,7 @@ export const Folder = ({ name, handleDelet, setFolderFilter }) => {
                     id="delet"
                     onClick={(e) => handleDelet(e, name)}
                 >
-                    <CrossLogo />
+                    <AddLogo />
                 </button>
             }
             <div className="text-sm font-semibold flex justify-center items-center h-full cursor-pointer"

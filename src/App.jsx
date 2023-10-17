@@ -10,7 +10,7 @@ function App() {
 
   const location = useLocation();
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence initial="false" mode="wait">
       <Routes key={location.pathname} location={location}>
         <Route path="/" element={<Dashboard />} />
         <Route path="/new" element={<Newnote />} />
