@@ -16,11 +16,8 @@ const Fullnote = () => {
 
     const { notes, setSaved } = useContext(NotesContext);
 
-    console.log(notes);
     const [note, setNote] = useState(() => notes.find(n => n.id === noteId));
-    console.log(note);
     const timeArr = note?.timestamp.toDate().toDateString().split(' ');
-    console.log("Sknd");
 
     const ref = useRef(note);
     const timeout = useRef();

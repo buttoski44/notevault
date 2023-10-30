@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { NotesContext } from "../../context/notes.context";
 import { Note } from "../note/note.component";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
@@ -13,26 +13,28 @@ const NoteContainer = ({ filter }) => {
     const [folderFilter, setFolderFilter] = useState(null);
     const [currentPage, setCurrentPage] = useState(1)
     const pageNumber = [];
-    const indexOfLastPost = currentPage * 6;
-    const indexOfFirstPost = indexOfLastPost - 6;
+    const indexOfLastPost = useMemo(() => currentPage * 6, [currentPage]);
+    const indexOfFirstPost = useMemo(() => indexOfLastPost - 6, indexOfLastPost);
 
     let { notes } = useContext(NotesContext);
     for (let i = 1; i <= Math.ceil(notes.length / 6); i++) {
         pageNumber.push(i)
     }
 
-    notes = notes.filter(note =>
+    notes = useMemo(() => notes.filter(note =>
         (note.title.toLowerCase().includes(filter.toLowerCase()))
-    );
+    ), [filter])
 
-    if (folderFilter) notes = notes.filter(note => note.folder === folderFilter);
+    if (folderFilter) notes = useMemo(() => notes.filter(note => note.folder === folderFilter), [folderFilter])
 
+    const array = useMemo(() => {
+        const pinned = notes.filter((note) => note.pinned === true);
+        pinned.sort((a, b) => b.pintime.toMillis() - a.pintime.toMillis())
+        const unPinned = notes.filter((note) => note.pinned === false);
+        unPinned.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis())
+        return pinned.concat(unPinned).slice(indexOfFirstPost, indexOfLastPost)
+    }, [notes])
 
-    const pinned = notes.filter((note) => note.pinned === true);
-    pinned.sort((a, b) => b.pintime.toMillis() - a.pintime.toMillis())
-    const unPinned = notes.filter((note) => note.pinned === false);
-    unPinned.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis())
-    const array = pinned.concat(unPinned).slice(indexOfFirstPost, indexOfLastPost)
     return (
         <section className="relative flex gap-8 h-full w-full px-4 md:px-10">
             <div className="flex flex-col w-full h-full mdl:w-[75%] xl:w-[52%]">

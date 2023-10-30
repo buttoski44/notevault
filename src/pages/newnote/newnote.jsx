@@ -4,7 +4,6 @@ import { addDocument } from "../../firebase/firebase.uitls";
 import { Timestamp } from "firebase/firestore";
 import { motion } from "framer-motion";
 import { DeletLogo } from "../../assets/delet";
-import { PaintLogo } from "../../assets/paint";
 import { BackLogo } from "../../assets/back";
 import { TextArea } from "../../components/textarea/textarea";
 export const INITIAL_VALUE = {
@@ -17,20 +16,9 @@ export const INITIAL_VALUE = {
     pintime: null,
 };
 
-// export const COLORS = {
-//     default: "bg-stone-100",
-//     oragne: "bg-[#FFA500]",
-//     yellow: "bg-[#ffde22]",
-//     indigo: "bg-[#352F44]",
-//     violet: "bg-[#EE82EE]",
-// }
-
-// export const colors = ["default", "oragne", "yellow", "indigo", "violet"]
-
 export const Newnote = () => {
     const ref = useRef(INITIAL_VALUE);
     const navigate = useNavigate();
-    // const [color, setColor] = useState(COLORS.default)
     useEffect(() => {
         return () => {
             if (ref.current.title.length !== 0 || ref.current.tagline.length !== 0 || ref.current.body.length !== 0) {
@@ -42,11 +30,6 @@ export const Newnote = () => {
     const handleDelet = () => {
         ref.current = INITIAL_VALUE;
         navigate("/");
-    }
-
-    const handleColor = (colour) => {
-        ref.current = { ...ref.current, color: colour }
-        setColor(colour)
     }
 
     const handleChange = (e) => {
@@ -76,14 +59,6 @@ export const Newnote = () => {
                     >
                         <DeletLogo />
                     </button>
-                    {/* <div className="dropdown dropdown-bottom dropdown-end">
-                        <label tabIndex={0} className="btn-circle sm:bg-[rgb(229,231,240)] hover:bg-[rgb(213,214,219)] flex justify-center items-center p-2">
-                            <PaintLogo />
-                        </label>
-                        <ul tabIndex={0} className="dropdown-content z-[1] shadow flex flex-col gap-2 p-2 bg-stone-100 rounded-s-2xl rounded-2xl w-12 mt-2">
-                            {colors.map((color) => <li key={color} className={`w-full rounded-sm ${COLORS[color]}`} onClick={() => handleColor(color)}><div className="opacity-[0]">l</div></li>)}
-                        </ul>
-                    </div> */}
                 </div>
             </div>
             <div className={`min-h-screen py-8 sm:py-5 px-8 bg-[#B9B4C7]`}

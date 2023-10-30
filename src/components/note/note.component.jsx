@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { MoreLogo } from "../../assets/more";
 import { PinLogo } from "../../assets/pin.jsx";
 import { DeletLogo } from "../../assets/delet";
-import { useContext, useState } from "react"
+import { useContext, useState, useMemo } from "react"
 import { FALSE_STATE } from "../notescontainer/notescontainer.component";
 import { AddToFolder } from "../../assets/addToFolder"
 import { FolderContext } from "../../context/folder.context";
@@ -14,8 +14,8 @@ export const Note = ({ note, preview, setPreview }) => {
     const folder = useContext(FolderContext);
     const [more, setMore] = useState(false);
     const [menu, setMenu] = useState(false);
-    const { title, tagline, timestamp, id, pinned } = note;
-    const timeArr = timestamp.toDate().toDateString().split(' ');
+    const { title, tagline, timestamp, id, pinned } = useMemo(() => note, [note])
+    const timeArr = useMemo(() => timestamp.toDate().toDateString().split(' '), [timestamp])
     const navigate = useNavigate();
     const handleClick = (e) => {
         if (e.type === 'click') {
@@ -33,7 +33,13 @@ export const Note = ({ note, preview, setPreview }) => {
     }
 
     const handleMore = () => {
+        if (menu) setMenu(false)
         setMore(!more)
+    }
+
+    const handleMenu = () => {
+        if (more) setMore(false)
+        setMenu(!menu)
     }
 
     const handleBlur = () => {
@@ -127,7 +133,7 @@ export const Note = ({ note, preview, setPreview }) => {
                     </button>
                     <button
                         className={`relative btn-circle ${more ? "hover:bg-[#B9B4C7]" : "hover:bg-[#f5f5f5]"} btn-xs flex justify-center items-center z-50 `}
-                        onClick={() => setMenu(!menu)}
+                        onClick={handleMenu}
                     >
                         <AnimatePresence>
                             {menu ? <AddLogo /> : <AddToFolder />}
