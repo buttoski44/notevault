@@ -14,7 +14,7 @@ const NoteContainer = ({ filter }) => {
     const [currentPage, setCurrentPage] = useState(1)
     const pageNumber = [];
     const indexOfLastPost = useMemo(() => currentPage * 6, [currentPage]);
-    const indexOfFirstPost = useMemo(() => indexOfLastPost - 6, indexOfLastPost);
+    const indexOfFirstPost = useMemo(() => indexOfLastPost - 6, [indexOfLastPost]);
 
     let { notes } = useContext(NotesContext);
     for (let i = 1; i <= Math.ceil(notes.length / 6); i++) {
@@ -23,9 +23,9 @@ const NoteContainer = ({ filter }) => {
 
     notes = useMemo(() => notes.filter(note =>
         (note.title.toLowerCase().includes(filter.toLowerCase()))
-    ), [filter])
+    ), [filter, notes])
 
-    if (folderFilter) notes = useMemo(() => notes.filter(note => note.folder === folderFilter), [folderFilter])
+    if (folderFilter) notes = useMemo(() => notes.filter(note => note.folder === folderFilter), [folderFilter, notes])
 
     const array = useMemo(() => {
         const pinned = notes.filter((note) => note.pinned === true);
@@ -34,6 +34,13 @@ const NoteContainer = ({ filter }) => {
         unPinned.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis())
         return pinned.concat(unPinned).slice(indexOfFirstPost, indexOfLastPost)
     }, [notes])
+    console.log(notes)
+    console.log(array)
+    // const pinned = notes.filter((note) => note.pinned === true);
+    // pinned.sort((a, b) => b.pintime.toMillis() - a.pintime.toMillis())
+    // const unPinned = notes.filter((note) => note.pinned === false);
+    // unPinned.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis())
+    // const array = pinned.concat(unPinned).slice(indexOfFirstPost, indexOfLastPost)
 
     return (
         <section className="relative flex gap-8 h-full w-full px-4 md:px-10">
