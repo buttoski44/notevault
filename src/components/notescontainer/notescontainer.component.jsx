@@ -25,7 +25,7 @@ const NoteContainer = ({ filter }) => {
         (note.title.toLowerCase().includes(filter.toLowerCase()))
     ), [filter, notes])
 
-    if (folderFilter) notes = useMemo(() => notes.filter(note => note.folder === folderFilter), [folderFilter, notes])
+    if (folderFilter) notes = notes.filter(note => note.folder === folderFilter)
 
     const array = useMemo(() => {
         const pinned = notes.filter((note) => note.pinned === true);
@@ -34,20 +34,13 @@ const NoteContainer = ({ filter }) => {
         unPinned.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis())
         return pinned.concat(unPinned).slice(indexOfFirstPost, indexOfLastPost)
     }, [notes])
-    console.log(notes)
-    console.log(array)
-    // const pinned = notes.filter((note) => note.pinned === true);
-    // pinned.sort((a, b) => b.pintime.toMillis() - a.pintime.toMillis())
-    // const unPinned = notes.filter((note) => note.pinned === false);
-    // unPinned.sort((a, b) => b.timestamp.toMillis() - a.timestamp.toMillis())
-    // const array = pinned.concat(unPinned).slice(indexOfFirstPost, indexOfLastPost)
 
     return (
-        <section className="relative flex gap-8 h-full w-full px-4 md:px-10">
+        <section className="relative flex w-full h-full gap-8 px-4 md:px-10">
             <div className="flex flex-col w-full h-full mdl:w-[75%] xl:w-[52%]">
 
                 <FolderContainer setFolderFilter={setFolderFilter} folderFilter={folderFilter} />
-                <div className='h-full w-full'
+                <div className='w-full h-full'
                 >
 
                     <div className="py-2 join md:py-3">

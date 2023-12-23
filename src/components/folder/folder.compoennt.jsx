@@ -8,14 +8,14 @@ export const Folder = ({ name, handleDelet, setFolderFilter }) => {
 
         > {
                 setFolderFilter &&
-                <button className="h-full w-4 flex justify-center items-center join-item"
+                <button className="flex items-center justify-center w-4 h-full join-item"
                     id="delet"
                     onClick={(e) => handleDelet(e, name)}
                 >
                     <AddLogo />
                 </button>
             }
-            <div className="text-sm font-semibold flex justify-center items-center h-full cursor-pointer"
+            <div className="flex items-center justify-center h-full text-sm font-semibold cursor-pointer"
                 onClick={() => setFolderFilter && setFolderFilter(name)}
             >
                 <p className="h-full p-1">

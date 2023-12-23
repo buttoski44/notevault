@@ -38,37 +38,19 @@ export const FolderContainer = ({ setFolderFilter, folderFilter }) => {
         ref.current = e.target.value;
     }
     return (
-        <section className="xl:w-full h-14 flex gap-3 items-center pt-3">
-            {folderFilter ?
-                <button className="rounded-full bg-red-300"
-                    onClick={() => setFolderFilter(null)}
-                >
-                    <AddLogo />
-                </button> :
-                showInput ?
-                    <button className="rounded-full bg-red-300"
-                        onClick={handleshowInput}
-                    >
-                        <FolderLogo />
-                    </button> :
-                    <button className="rounded-full bg-green-100 rotate-45"
-                        onClick={handleshowInput}
-                    >
-                        <AddLogo />
-                    </button>
-            }
+        <section className="flex items-center gap-3 pt-3 xl:w-full h-14">
             <AnimatePresence>
                 {
                     showInput ?
-                        <motion.div className="join cursor-pointer"
+                        <motion.div className="cursor-pointer join"
                         >
                             <input type="text" onChange={handleChange} className="input input-sm input-bordered border-[#B9B4C7] border-2 bg-[#f5f5f5] w-full font-semibold join-item" />
-                            <button className=" bg-[#B9B4C7] join-item"
+                            <button className="bg-[#B9B4C7] join-item"
                                 id="add"
                                 onClick={handleUpdate}
-                            ><AddLogo /></button>
+                            > <AddLogo /></button>
                         </motion.div> :
-                        <motion.div className="flex items-center gap-2 no-scrollbar overflow-scroll ">
+                        <motion.div className="flex items-center gap-2 overflow-scroll no-scrollbar ">
                             {
                                 folderFilter ?
                                     <Folder key={folderFilter} name={folderFilter} cross="false" /> :
@@ -80,6 +62,24 @@ export const FolderContainer = ({ setFolderFilter, folderFilter }) => {
 
                 }
             </AnimatePresence>
+            {folderFilter ?
+                <button className="bg-red-300 rounded-full"
+                    onClick={() => setFolderFilter(null)}
+                >
+                    <AddLogo />
+                </button> :
+                showInput ?
+                    <button className="bg-red-300 rounded-full"
+                        onClick={handleshowInput}
+                    >
+                        <FolderLogo />
+                    </button> :
+                    <button className="rotate-45 bg-green-100 rounded-full"
+                        onClick={handleshowInput}
+                    >
+                        <AddLogo />
+                    </button>
+            }
         </section>
     )
 };

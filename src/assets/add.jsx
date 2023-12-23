@@ -1,6 +1,5 @@
 import { motion } from "framer-motion";
 
-motion
 export const AddLogo = () => {
    return (
       <motion.svg
